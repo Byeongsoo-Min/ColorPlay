@@ -1,28 +1,28 @@
 //
-//  MoveLight.swift
+//  MovePaint.swift
 //  ColorPlay
 //
-//  Created by MBSoo on 2023/04/05.
+//  Created by MBSoo on 2023/04/11.
 //
 
 import SwiftUI
 
-class LightPosition: ObservableObject {
-    @Published var colorPosition: [String:CGPoint] = [:]
+class PaintPosition: ObservableObject {
+    @Published var paintColorPosition: [String:CGPoint] = [:]
 }
 
-struct MoveLight: View {
-    @EnvironmentObject var lightPosition: LightPosition
+struct MovePaint: View {
+    @EnvironmentObject var paintPosition: PaintPosition
     @State private var dragAmount: CGPoint?
-    var lightColor: String = "red"
-    var colorDict: [String: Color] = ["red": Color.red, "blue": Color.blue, "green": Color.green]
+    var paintColor: String = "red"
+    var colorDict: [String: UIColor] = ["red": UIColor.magenta, "cyan": UIColor.cyan, "yellow": UIColor.yellow]
     var body: some View {
         GeometryReader { gp in // just to center initial position
             ZStack {
                 Button(action: self.performAction) {
                     ZStack {
                         Circle()
-                            .foregroundColor(colorDict[lightColor])
+                            .foregroundColor(Color(colorDict[paintColor] ?? .red))
                             .frame(width: 100, height: 100)
                     }
                 }
@@ -32,7 +32,7 @@ struct MoveLight: View {
                 .highPriorityGesture(  // << to do no action on drag !!
                     DragGesture()
                         .onChanged { self.dragAmount = $0.location
-                            self.lightPosition.colorPosition[lightColor] = gp.frame(in: .global).origin
+                            self.paintPosition.paintColorPosition[paintColor] = gp.frame(in: .global).origin
                         })
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity) // full space
@@ -43,12 +43,12 @@ struct MoveLight: View {
     }
     func performAction() {
         print("button pressed")
-        print(lightPosition.colorPosition)
+        print(paintPosition.paintColorPosition)
     }
 }
 
-struct MoveLight_Previews: PreviewProvider {
+struct MovePaint_Previews: PreviewProvider {
     static var previews: some View {
-        MoveLight()
+        MovePaint()
     }
 }

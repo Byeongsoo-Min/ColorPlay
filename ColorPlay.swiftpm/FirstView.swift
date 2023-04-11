@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct FirstView: View {
+    @State private var firstTap = false
+    @State private var secondTap = false
+    @State private var thirdTap = false
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }

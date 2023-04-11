@@ -3,17 +3,52 @@ import SwiftUI
 struct FusionColorView : View {
     var textColor: Color
     let imageName: String
+    let imageDict = ["lightbulb.fill" : "lightbulb", "paintbrush.fill" : "paintbrush"]
+    var currentColor: Color
+    var oppositeColor: Color
+    
+    @State var redPoint: CGPoint?
+    @State var bluePoint: CGPoint?
+    @State var greenPoint: CGPoint?
+    @State private var isTapped = false
+    @State var dragAmount: CGPoint?
+    
+    var lightColor: Color = .red
     var body: some View {
         VStack {
             Text("How to make purple?")
                 .padding()
                 .foregroundColor(textColor)
-            Image(systemName: imageName)
-                .padding()
+                .font(.system(size: 25, weight: .bold))
+            if(imageName == "lightbulb.fill") {
+                Text("If you want to make Color with the light, Press this!")
+                    .padding(.bottom)
+                    .foregroundColor(textColor)
+                    .font(.system(size: 25, weight: .bold))
+            } else {
+                Text("If you want to make Color with the paint, Press this!")
+                    .padding(.bottom)
+                    .foregroundColor(textColor)
+                    .font(.system(size: 25, weight: .bold))
+            }
+            Image(systemName: isTapped ? imageName : imageDict[imageName]!)
+                .imageScale(.large)
+                .padding(.bottom)
+                .foregroundColor(isTapped ? self.currentColor : self.oppositeColor)
+                .onTapGesture {
+                    isTapped.toggle()
+                }
+                .animation(.default, value: isTapped)
             HStack {
-                MoveLight(lightColor: .red)
-                MoveLight(lightColor: .blue)
-                MoveLight(lightColor: .green)
+                if(imageName == "lightbulb.fill") {
+                    MoveLight(lightColor: "red")
+                    MoveLight(lightColor: "blue")
+                    MoveLight(lightColor: "green")
+                } else {
+                    MovePaint(paintColor: "Magenta")
+                    MovePaint(paintColor: "cyan")
+                    MovePaint(paintColor: "yellow")
+                }
             }
         }
     }
@@ -26,8 +61,8 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                //            currentColor
-                //                .ignoresSafeArea()
+                Color.gray.opacity(0.3)
+                                .ignoresSafeArea()
                 VStack {
                     HStack {
                         Text("Say Wonderful")
@@ -45,8 +80,8 @@ struct ContentView: View {
                         .cornerRadius(10)
                         .foregroundColor(.blue)
                         .font(.headline)
-                    FusionColorView(textColor: oppositeColor, imageName: "lightbulb.fill")
-                    FusionColorView(textColor: oppositeColor, imageName: "paintbrush.fill")
+                    FusionColorView(textColor: oppositeColor, imageName: "lightbulb.fill", currentColor: self.currentColor, oppositeColor: self.oppositeColor)
+                    FusionColorView(textColor: oppositeColor, imageName: "paintbrush.fill", currentColor: self.currentColor, oppositeColor: self.oppositeColor)
                     Spacer()
                     Button {
                         showFirst = true
