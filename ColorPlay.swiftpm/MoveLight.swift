@@ -23,7 +23,7 @@ struct MoveLight: View {
                     ZStack {
                         Circle()
                             .foregroundColor(colorDict[lightColor])
-                            .frame(width: 100, height: 100)
+                            .frame(width: 40, height: 40)
                     }
                 }
                 // Use .none animation for glue effect

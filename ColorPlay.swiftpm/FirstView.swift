@@ -11,13 +11,20 @@ struct FirstView: View {
     @State private var firstTap = false
     @State private var secondTap = false
     @State private var thirdTap = false
+    
+    @Binding var currentColor: Color
+    @Binding var oppositeColor: Color
+    @Binding var moveToFirst:Bool
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            FusionColorView(textColor: oppositeColor, imageName: "lightbulb.fill", currentColor: currentColor, oppositeColor: oppositeColor, moveToFirst: $moveToFirst)
+            
+        }
     }
 }
 
 struct FirstView_Previews: PreviewProvider {
     static var previews: some View {
-        FirstView()
+        FirstView(currentColor: .constant(.green), oppositeColor: .constant(.purple), moveToFirst: .constant(false))
     }
 }
